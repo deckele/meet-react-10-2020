@@ -6,6 +6,18 @@ import "./calculator.scss";
 export function Calculator() {
   const [result, setResult] = useState("0");
   const [isInitialized, setIsInitialized] = useState(true);
+  function calculateResult(currentResult: string) {
+    try {
+      // eslint-disable-next-line no-eval
+      const newResult = eval(currentResult);
+      if (newResult === Infinity || newResult === -Infinity) {
+        return "DEVIDED BY ZERO";
+      }
+      return newResult;
+    } catch (e) {
+      return "SYNTAX ERROR";
+    }
+  }
   function handleButtonClicked(sign: string) {
     switch (sign) {
       case "+":
@@ -21,14 +33,7 @@ export function Calculator() {
       case "=": {
         isInitialized
           ? setResult("0")
-          : setResult((prev) => {
-              try {
-                // eslint-disable-next-line no-eval
-                return eval(prev);
-              } catch (e) {
-                return "Syntax Error!";
-              }
-            });
+          : setResult((prev) => calculateResult(prev));
         setIsInitialized(true);
         break;
       }
