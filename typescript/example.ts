@@ -19,6 +19,9 @@ type Ho = {
 type Intersection = Yo & Ho;
 type Union = Yo | Ho;
 
+type Inter = string & number;
+type Uni = string | number;
+
 let union: Union = { a: "", b: 5, c: 6 };
 let inter: Intersection = { a: "", b: 5, c: 6 };
 
