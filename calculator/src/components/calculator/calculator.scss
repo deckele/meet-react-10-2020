@@ -1,0 +1,9 @@
+.calculator-wrapper {
+  width: 200px;
+  border: 1px solid black;
+  border-radius: 4px;
+  .calc-buttons-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
