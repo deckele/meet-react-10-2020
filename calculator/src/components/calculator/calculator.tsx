@@ -19,13 +19,16 @@ export function Calculator() {
         break;
       }
       case "=": {
-        setResult((prev) => {
-          try {
-            return eval(prev);
-          } catch (e) {
-            return "Syntax Error!";
-          }
-        });
+        isInitialized
+          ? setResult("0")
+          : setResult((prev) => {
+              try {
+                // eslint-disable-next-line no-eval
+                return eval(prev);
+              } catch (e) {
+                return "Syntax Error!";
+              }
+            });
         setIsInitialized(true);
         break;
       }
@@ -37,12 +40,7 @@ export function Calculator() {
     }
   }
   const buttons = calcConfig.map((sign) => (
-    <Button
-      onClick={handleButtonClicked}
-      className="calc-button"
-      key={sign}
-      sign={sign}
-    />
+    <Button onClick={handleButtonClicked} key={sign} sign={sign} />
   ));
   return (
     <div className="calculator-wrapper">

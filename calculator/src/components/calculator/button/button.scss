@@ -1,3 +1,22 @@
 .calc-button {
-  flex: 25%;
+  border: none;
+  outline: none;
+  box-shadow: 1px 1px 1px 1px rgb(57, 56, 56);
+  flex: calc(25% - 8px) 1;
+  margin: 4px;
+  background-color: chocolate;
+  color: #cece24;
+  border-radius: 4px;
+  height: 30px;
+  font-size: 18px;
+  font-weight: 700;
+  &:active {
+    box-shadow: inset 1px 1px 1px 1px rgb(57, 56, 56);
+  }
+  &:hover {
+    background-color: darken($color: chocolate, $amount: 10%);
+  }
+  &:focus {
+    background-color: darkslateblue;
+  }
 }

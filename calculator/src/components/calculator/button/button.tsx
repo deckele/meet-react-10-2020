@@ -2,7 +2,6 @@ import React from "react";
 import "./button.scss";
 
 type ButtonProps = {
-  className: string;
   sign: string;
   onClick: (sign: string) => void;
 };
@@ -11,7 +10,7 @@ export function Button(props: ButtonProps) {
     props.onClick(props.sign);
   }
   return (
-    <button className={props.className} onClick={handleClick}>
+    <button className="calc-button" onClick={handleClick}>
       {props.sign}
     </button>
   );
