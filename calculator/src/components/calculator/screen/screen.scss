@@ -1,7 +1,8 @@
+$screen-text-color: #1a3e20;
 .calc-screen {
   background-color: green;
   text-shadow: -2px -2px 2px #214f29;
-  color: #1a3e20;
+  color: $screen-text-color;
   margin: 5px;
   padding: 5px 5px 2px 5px;
   font-size: 30px;
@@ -11,4 +12,8 @@
   overflow: hidden;
   white-space: nowrap;
   font-family: "Calculator";
+  transition: color ease-in-out 50ms;
+  &.blink-out {
+    color: transparentize($color: $screen-text-color, $amount: 0.8);
+  }
 }
