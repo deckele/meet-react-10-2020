@@ -5,7 +5,6 @@ type ScreenProps = {
 };
 export function Screen(props: ScreenProps) {
   const [isBlinking, setIsBlinking] = useState(false);
-  const [myArray] = useState({});
   useEffect(() => {
     // side effect (father) function
     setIsBlinking(true);
@@ -18,7 +17,7 @@ export function Screen(props: ScreenProps) {
       console.log("cleanup count is: ", count);
       clearTimeout(id);
     };
-  }, [props.result, myArray]);
+  }, [props.result]);
 
   // runs after render only if props.result changed
   useEffect(() => localStorage.setItem("screen", props.result), [props.result]);
@@ -30,6 +29,18 @@ export function Screen(props: ScreenProps) {
   useEffect(() => {
     console.log("OnMount");
     return () => console.log("OnUnmount");
+  }, []);
+  useEffect(() => {
+    function handleMouseMoved(e: MouseEvent) {
+      console.log(`X: ${e.clientX}, Y: ${e.clientY}`);
+    }
+    document.documentElement.addEventListener("mousemove", handleMouseMoved);
+    return () => {
+      document.documentElement.removeEventListener(
+        "mousemove",
+        handleMouseMoved
+      );
+    };
   }, []);
 
   return (
