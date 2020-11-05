@@ -1,7 +1,6 @@
 import React from "react";
 import "./App.css";
 import { MoviesList } from "./components/movies-list/movies-list";
-import { MoviesResponse } from "./contracts";
 
 /*
 1. ul > MoviesList

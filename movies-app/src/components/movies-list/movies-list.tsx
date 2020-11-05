@@ -1,79 +1,50 @@
 import React, { useEffect, useState } from "react";
 import { Movie, MoviesResponse } from "../../contracts";
+import { useDebounce } from "../../hooks/use-debounce";
+import { usePaginator } from "../../hooks/use-paginator";
 import { MoviesListItem } from "./movies-list-item/movies-list-item";
 import "./movies-list.scss";
 
-const MIN_PAGE = 1;
 export function MoviesList() {
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [page, setPage] = useState(MIN_PAGE);
   const [totalPages, setTotalPages] = useState<number | null>(null);
+  const { nextPage, prevPage, setPage, page } = usePaginator(totalPages || 0);
+  const debouncedPage = useDebounce(page, 300);
   useEffect(() => {
     function getMovies() {
       fetch(
-        `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${page}`
+        `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${debouncedPage}`
       )
         .then((res) => res.json())
         .then((res: MoviesResponse) => {
           setMovies(res.results);
           setTotalPages(res.total_pages);
+          console.count("set movies");
         });
     }
     getMovies();
-  }, [page]);
-  function handlePrevPage() {
-    setPage((currentPage) => {
-      const prevPage = currentPage - 1;
-      return prevPage < MIN_PAGE ? MIN_PAGE : prevPage;
-    });
-  }
-  function handleNextPage() {
-    totalPages &&
-      setPage((currentPage) => {
-        const nextPage = currentPage + 1;
-        return nextPage > totalPages ? totalPages : nextPage;
-      });
-  }
-  function handlePageChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (!totalPages) {
-      return;
-    }
-    const value = Number(e.target.value);
-    if (!Number.isInteger(value)) {
-      return;
-    }
-    if (value > totalPages) {
-      setPage(totalPages);
-      return;
-    }
-    if (value < MIN_PAGE) {
-      setPage(MIN_PAGE);
-      return;
-    }
-    setPage(value);
-  }
+  }, [debouncedPage]);
+
   return (
     <>
       <h1>Movies List!</h1>
       <div>
-        <button onClick={handlePrevPage}>{"<<< prev page"}</button>
+        <button onClick={prevPage}>{"<<< prev page"}</button>
         <span>
           <input
             className="movies-page-input"
             type="number"
             value={page}
-            onChange={handlePageChange}
+            onChange={(e) => setPage(Number(e.target.value))}
           />{" "}
           / {totalPages}
         </span>
-        <button onClick={handleNextPage}>{"next page >>>"}</button>
+        <button onClick={nextPage}>{"next page >>>"}</button>
       </div>
-
-      {JSON.stringify(movies)}
-      <ul>
-        <MoviesListItem />
-        <MoviesListItem />
-        <MoviesListItem />
+      <ul className="movies-list">
+        {movies.map((movie) => (
+          <MoviesListItem key={movie.id} movie={movie} />
+        ))}
       </ul>
     </>
   );
