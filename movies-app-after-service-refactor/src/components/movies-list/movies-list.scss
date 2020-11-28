@@ -1,10 +1,42 @@
-.movies-page-input {
-  width: 40px;
-  font-size: 15px;
-}
 .movies-list {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
-  justify-content: space-around;
+  justify-content: flex-start;
+  gap: 20px;
+}
+.movies-page-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .movies-page-input {
+    width: 40px;
+    height: 25px;
+    line-height: 25px;
+    font-size: 15px;
+  }
+  .movies-page-button {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    text-shadow: none;
+    outline: none;
+    &:focus {
+      .movies-page-button-icon {
+        fill: darkslategray;
+      }
+    }
+    .movies-page-button-icon {
+      width: 30px;
+      &:hover {
+        fill: cadetblue;
+      }
+      &:active {
+        fill: darkcyan;
+      }
+      &:focus {
+        fill: darkcyan;
+      }
+    }
+  }
 }

@@ -1,3 +1,26 @@
 .movies-list-item {
-  margin-bottom: 40px;
+  width: 152px;
+  position: relative;
+  border: 1px black solid;
+  border-radius: 4px;
+  box-sizing: border-box;
+  .movies-list-item-image {
+    width: 150px;
+    height: 225px;
+    border-radius: 4px;
+  }
+  .movies-list-item-description {
+    font-size: 12px;
+    text-align: left;
+    width: 152px;
+    left: -1px;
+    position: absolute;
+    background: white;
+    z-index: 1;
+    padding: 5px;
+    border: 1px black solid;
+    overflow: hidden;
+    box-sizing: border-box;
+    border-radius: 4px;
+  }
 }
