@@ -1,0 +1,15 @@
+.filtersList {
+  list-style: none;
+  padding: initial;
+  display: inline-flex;
+  gap: 10px;
+}
+.colorFilter {
+  height: 50px;
+  width: 50px;
+}
+.filtersListTitle {
+  font-weight: bold;
+  margin-right: 5px;
+  font-size: 20px;
+}
