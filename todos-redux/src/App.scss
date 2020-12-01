@@ -1,0 +1,19 @@
+.App {
+  padding: 20px;
+}
+
+.StyledButton {
+  background: #27a3ff;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  padding: 8px;
+  font-weight: bolder;
+  &:hover {
+    background: #2188d6;
+  }
+  &:active {
+    background: #27a3ff;
+  }
+}

@@ -40,7 +40,9 @@ export function TodosList() {
   return (
     <>
       <h4>My Todos</h4>
-      <button onClick={handleNewTodo}>+ New Todo</button>
+      <button className={"StyledButton"} onClick={handleNewTodo}>
+        + New Todo
+      </button>
       <ul className={styles.todosList}>
         {filteredTodos.map((todo) => (
           <TodosListItem

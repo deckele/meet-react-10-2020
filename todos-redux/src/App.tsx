@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import "./App.scss";
 import { FiltersList } from "./features/filters-list/filters-list";
 import { TodosList } from "./features/todos-list/todos-list";
 
