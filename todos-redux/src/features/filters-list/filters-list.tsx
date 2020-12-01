@@ -1,27 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import { colors, doneStatusMap } from "../../constants";
 import { ColorIcon } from "../color-icon/color-icon";
-import { FiltersMap, Filter, ITodo } from "../../contracts";
+import { FiltersMap, ITodo, AppState, Filter } from "../../contracts";
 import { FiltersListItem } from "./filters-list-item/filters-list-item";
 import styles from "./filters-list.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { filtersActions } from "./filters-list-actions";
 
 export function FiltersList() {
-  // move to redux state (with initial value)
-  const [filtersMap, setFiltersMap] = useState<FiltersMap>({});
-  // FILTER_APPLY
-  function handleApplyFilter(name: string, filterFunction: Filter): void {
-    setFiltersMap((prev) => ({
-      ...prev,
-      [name]: filterFunction,
-    }));
+  const filtersMap = useSelector<AppState, FiltersMap>(
+    (state) => state.filters
+  );
+  const dispatch = useDispatch();
+  function handleApplyFilter(name: string, predicate: Filter) {
+    dispatch(filtersActions.filterApply(name, predicate));
   }
-  // FILTER_REMOVE
-  function handleRemoveFilter(name: string): void {
-    setFiltersMap(({ [name]: removed, ...rest }) => rest);
-  }
-  // FILTER_REMOVE_ALL
-  function handleRemoveAllFilters(): void {
-    setFiltersMap({});
+  function handleRemoveFilter(name: string) {
+    dispatch(filtersActions.filterRemove(name));
   }
   const doneStateFilters = Object.keys(doneStatusMap).map((name) => (
     <FiltersListItem
@@ -52,7 +47,9 @@ export function FiltersList() {
     <>
       <span className={styles.filtersListTitle}>Filters: </span>
       <ul className={styles.filtersList}>{allFilters}</ul>
-      <button onClick={handleRemoveAllFilters}>Remove All</button>
+      <button onClick={() => dispatch(filtersActions.filterRemoveAll())}>
+        Remove All
+      </button>
     </>
   );
 }

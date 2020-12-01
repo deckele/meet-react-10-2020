@@ -1,46 +1,27 @@
-import React, { useState } from "react";
-import { FiltersMap, ITodo } from "../../contracts";
-import { applyFilters, todosFactory } from "../../utils/utils";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState, FiltersMap, ITodo } from "../../contracts";
+import { applyFilters } from "../../utils/utils";
+import { todosActions } from "./todos-list-actions";
 import { TodosListItem } from "./todos-list-item/todos-list-item";
 import styles from "./todos-list.module.scss";
 
 export function TodosList() {
-  // move to redux state (with initial value)
-  const [todosState, setTodosState] = useState<ITodo[]>([
-    todosFactory.createTodo("Learn ReactJs", "blue"),
-    todosFactory.createTodo("Order from 10Bis", "orange"),
-  ]);
-  // get the real filtersMap state from Redux
-  const [filtersMap] = useState<FiltersMap>({});
+  const todos = useSelector<AppState, ITodo[]>((state) => state.todos);
+  const filtersMap = useSelector<AppState, FiltersMap>(
+    (state) => state.filters
+  );
+  const dispatch = useDispatch();
   const filterFunctions = Object.values(filtersMap);
-  const filteredTodos = applyFilters(todosState, filterFunctions);
-  // TODO_CHANGE action (with payload)
-  function handleChangeTodo<TProp extends keyof ITodo>(
-    id: string,
-    todoProp: TProp,
-    value: ITodo[TProp]
-  ): void {
-    const todoIndex = todosState.findIndex((todo) => todo.id === id);
-    const changedTodo = { ...todosState[todoIndex], [todoProp]: value };
-    setTodosState((todos) => [
-      ...todos.slice(0, todoIndex),
-      changedTodo,
-      ...todos.slice(todoIndex + 1),
-    ]);
-  }
-  // TODO_DELETE action (with payload)
-  function handleDeleteTodo(id: string) {
-    setTodosState((todos) => todos.filter((todo) => todo.id !== id));
-  }
-  // TODO_CREATE action
-  function handleNewTodo() {
-    const newTodo: ITodo = todosFactory.createTodo();
-    setTodosState((todos) => [...todos, newTodo]);
-  }
+  const filteredTodos = applyFilters(todos, filterFunctions);
+
   return (
     <>
       <h4>My Todos</h4>
-      <button className={"StyledButton"} onClick={handleNewTodo}>
+      <button
+        className={"StyledButton"}
+        onClick={() => dispatch(todosActions.todoCreate())}
+      >
         + New Todo
       </button>
       <ul className={styles.todosList}>
@@ -48,8 +29,10 @@ export function TodosList() {
           <TodosListItem
             key={todo.id}
             {...todo}
-            onChange={handleChangeTodo}
-            onDelete={handleDeleteTodo}
+            onChange={(id, todoProp, value) =>
+              dispatch(todosActions.todoChange(id, todoProp, value))
+            }
+            onDelete={(id) => dispatch(todosActions.todoDelete(id))}
           />
         ))}
       </ul>

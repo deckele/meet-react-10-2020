@@ -1,4 +1,11 @@
 import { colors } from "./constants";
+import { TodosState } from "./features/todos-list/todos-list-reducer";
+import { FiltersState } from "./features/filters-list/filters-list-reducer";
+
+export type AppState = {
+  todos: TodosState;
+  filters: FiltersState;
+};
 
 export type Filter = Parameters<typeof Array.prototype.filter>[0];
 
