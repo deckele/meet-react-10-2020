@@ -5,12 +5,16 @@ import { TodosListItem } from "./todos-list-item/todos-list-item";
 import styles from "./todos-list.module.scss";
 
 export function TodosList() {
+  // move to redux state (with initial value)
   const [todosState, setTodosState] = useState<ITodo[]>([
-    todosFactory.createTodo(),
+    todosFactory.createTodo("Learn ReactJs", "blue"),
+    todosFactory.createTodo("Order from 10Bis", "orange"),
   ]);
+  // get the real filtersMap state from Redux
   const [filtersMap] = useState<FiltersMap>({});
   const filterFunctions = Object.values(filtersMap);
   const filteredTodos = applyFilters(todosState, filterFunctions);
+  // TODO_CHANGE action (with payload)
   function handleChangeTodo<TProp extends keyof ITodo>(
     id: string,
     todoProp: TProp,
@@ -24,9 +28,11 @@ export function TodosList() {
       ...todos.slice(todoIndex + 1),
     ]);
   }
+  // TODO_DELETE action (with payload)
   function handleDeleteTodo(id: string) {
     setTodosState((todos) => todos.filter((todo) => todo.id !== id));
   }
+  // TODO_CREATE action
   function handleNewTodo() {
     const newTodo: ITodo = todosFactory.createTodo();
     setTodosState((todos) => [...todos, newTodo]);

@@ -1,11 +1,11 @@
-import { Filter, ITodo } from "../contracts";
+import { Color, Filter, ITodo } from "../contracts";
 
 class Todo implements ITodo {
   constructor(
-    public id: string,
-    public done = false,
-    public description = "",
-    public color = "black" as const
+    public readonly id: string,
+    public done: boolean,
+    public description: string,
+    public color: Color
   ) {}
 }
 class TodosFactory {
@@ -13,8 +13,8 @@ class TodosFactory {
   private getUniqueId(): string {
     return String(this.uniqueId++);
   }
-  public createTodo(): ITodo {
-    return new Todo(this.getUniqueId());
+  public createTodo(description: string = "", color: Color = "black"): ITodo {
+    return new Todo(this.getUniqueId(), false, description, color);
   }
 }
 export const todosFactory = new TodosFactory();

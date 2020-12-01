@@ -6,23 +6,27 @@ import { FiltersListItem } from "./filters-list-item/filters-list-item";
 import styles from "./filters-list.module.scss";
 
 export function FiltersList() {
-  const [filtersState, setFiltersState] = useState<FiltersMap>({});
+  // move to redux state (with initial value)
+  const [filtersMap, setFiltersMap] = useState<FiltersMap>({});
+  // FILTER_APPLY
   function handleApplyFilter(name: string, filterFunction: Filter): void {
-    setFiltersState((prev) => ({
+    setFiltersMap((prev) => ({
       ...prev,
       [name]: filterFunction,
     }));
   }
+  // FILTER_REMOVE
   function handleRemoveFilter(name: string): void {
-    setFiltersState(({ [name]: removed, ...rest }) => rest);
+    setFiltersMap(({ [name]: removed, ...rest }) => rest);
   }
+  // FILTER_REMOVE_ALL
   function handleRemoveAllFilters(): void {
-    setFiltersState({});
+    setFiltersMap({});
   }
   const doneStateFilters = Object.keys(doneStatusMap).map((name) => (
     <FiltersListItem
       key={name}
-      active={!!filtersState[name]}
+      active={!!filtersMap[name]}
       name={name}
       filterFunction={(todo: ITodo) =>
         !!todo.done === doneStatusMap[name as keyof typeof doneStatusMap]
@@ -34,7 +38,7 @@ export function FiltersList() {
   const colorFilters = colors.map((color) => (
     <FiltersListItem
       key={color}
-      active={!!filtersState[color]}
+      active={!!filtersMap[color]}
       name={color}
       filterFunction={(todo: ITodo) => todo.color === color}
       onApplyFilter={handleApplyFilter}

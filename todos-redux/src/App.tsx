@@ -7,6 +7,7 @@ import { TodosList } from "./features/todos-list/todos-list";
 // Filters: done / not done filter, color filter
 // Todo actions: create todo, remove todo, update todo
 // Filter actions: apply filter, remove filter, remove all filters
+// Add devtools support
 
 function App() {
   return (
