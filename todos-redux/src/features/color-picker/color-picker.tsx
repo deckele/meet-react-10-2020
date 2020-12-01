@@ -1,13 +1,26 @@
 import React from "react";
 import { colors } from "../../constants";
-import { ColorIcon } from "../color-icon/color-icon";
+import { Color } from "../../contracts";
 
-export function ColorPicker() {
+interface ColorPickerProps {
+  value: Color;
+  onChange: (color: Color) => void;
+}
+export function ColorPicker({ value, onChange }: ColorPickerProps) {
   return (
-    <select name="color-picker">
+    <select
+      name="color-picker"
+      value={value}
+      onChange={(e) => onChange(e.target.value as Color)}
+      style={{
+        color: value,
+        fontWeight: "bolder",
+        textShadow: "black 0px 0px 1px",
+      }}
+    >
       {colors.map((color) => (
-        <option>
-          <ColorIcon color={color} />
+        <option key={color} value={color}>
+          {color.slice(0, 1).toLocaleUpperCase() + color.slice(1)}
         </option>
       ))}
     </select>

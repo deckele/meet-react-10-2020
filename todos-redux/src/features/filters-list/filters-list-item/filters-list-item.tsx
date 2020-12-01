@@ -1,20 +1,20 @@
 import React, { ReactNode } from "react";
-import { FilterFunction } from "../contracts";
+import { Filter } from "../../../contracts";
 import styles from "./filters-list-item.module.scss";
 
 interface FiltersListItemProps {
   name: string;
   active: boolean;
-  customFilter?: FilterFunction;
+  filterFunction?: Filter;
   customDisplay?: ReactNode;
-  onApplyFilter: (name: string, customFilter?: FilterFunction) => void;
+  onApplyFilter: (name: string, predicate: Filter) => void;
   onRemoveFilter: (name: string) => void;
 }
 
 export function FiltersListItem({
   name,
   active,
-  customFilter,
+  filterFunction = (value: any) => value !== name,
   customDisplay,
   onApplyFilter,
   onRemoveFilter,
@@ -23,12 +23,16 @@ export function FiltersListItem({
     if (active) {
       onRemoveFilter(name);
     } else {
-      onApplyFilter(name, customFilter);
+      onApplyFilter(name, filterFunction);
     }
   }
   return (
     <li className={styles.filtersListItem}>
-      <input onChange={handleFilterChange} checked={active} type="checkbox" />
+      <input
+        onChange={handleFilterChange}
+        checked={active ?? false}
+        type="checkbox"
+      />
       {customDisplay ?? name}
     </li>
   );

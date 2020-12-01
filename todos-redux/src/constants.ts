@@ -7,4 +7,9 @@ export const colors = [
   "purple",
   "orange",
   "black",
-];
+] as const;
+
+export const doneStatusMap = {
+  Done: true,
+  "Not done": false,
+} as const;

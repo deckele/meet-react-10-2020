@@ -1,30 +1,32 @@
 import React, { useState } from "react";
-import { colors } from "../../constants";
+import { colors, doneStatusMap } from "../../constants";
 import { ColorIcon } from "../color-icon/color-icon";
-import { Filter, FilterFunction } from "./contracts";
+import { FiltersMap, Filter, ITodo } from "../../contracts";
 import { FiltersListItem } from "./filters-list-item/filters-list-item";
 import styles from "./filters-list.module.scss";
 
-type FiltersCache = { [filterName: string]: Filter };
 export function FiltersList() {
-  const [filtersCache, setFiltersCache] = useState<FiltersCache>({});
-  function handleApplyFilter(
-    name: string,
-    customFilter?: FilterFunction
-  ): void {
-    setFiltersCache((prev) => ({
+  const [filtersState, setFiltersState] = useState<FiltersMap>({});
+  function handleApplyFilter(name: string, filterFunction: Filter): void {
+    setFiltersState((prev) => ({
       ...prev,
-      [name]: { active: true, name, customFilter },
+      [name]: filterFunction,
     }));
   }
   function handleRemoveFilter(name: string): void {
-    setFiltersCache(({ [name]: removed, ...rest }) => rest);
+    setFiltersState(({ [name]: removed, ...rest }) => rest);
   }
-  const doneStateFilters = ["Done", "Not done"].map((name) => (
+  function handleRemoveAllFilters(): void {
+    setFiltersState({});
+  }
+  const doneStateFilters = Object.keys(doneStatusMap).map((name) => (
     <FiltersListItem
       key={name}
+      active={!!filtersState[name]}
       name={name}
-      active={!!filtersCache[name]?.active}
+      filterFunction={(todo: ITodo) =>
+        !!todo.done === doneStatusMap[name as keyof typeof doneStatusMap]
+      }
       onApplyFilter={handleApplyFilter}
       onRemoveFilter={handleRemoveFilter}
     />
@@ -32,8 +34,9 @@ export function FiltersList() {
   const colorFilters = colors.map((color) => (
     <FiltersListItem
       key={color}
+      active={!!filtersState[color]}
       name={color}
-      active={!!filtersCache[color]?.active}
+      filterFunction={(todo: ITodo) => todo.color === color}
       onApplyFilter={handleApplyFilter}
       onRemoveFilter={handleRemoveFilter}
       customDisplay={<ColorIcon color={color} />}
@@ -45,6 +48,7 @@ export function FiltersList() {
     <>
       <span className={styles.filtersListTitle}>Filters: </span>
       <ul className={styles.filtersList}>{allFilters}</ul>
+      <button onClick={handleRemoveAllFilters}>Remove All</button>
     </>
   );
 }

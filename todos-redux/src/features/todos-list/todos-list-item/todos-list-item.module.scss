@@ -1,0 +1,11 @@
+.todosListItem {
+  display: flex;
+  gap: 10px;
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.done {
+  text-decoration: line-through;
+}

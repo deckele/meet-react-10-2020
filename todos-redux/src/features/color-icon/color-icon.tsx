@@ -1,8 +1,9 @@
 import React from "react";
+import { Color } from "../../contracts";
 import styles from "./color-icon.module.scss";
 
 interface ColorIconProps {
-  color: string;
+  color: Color;
 }
 export function ColorIcon({ color }: ColorIconProps) {
   return (
