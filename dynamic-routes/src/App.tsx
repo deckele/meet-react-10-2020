@@ -1,6 +1,11 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+
+// The `path` lets us build <Route> paths that are
+// relative to the parent route, while the `url` lets
+// us build relative links.
+// let { path, url } = useRouteMatch();
 
 function App() {
   return (
