@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import { ITodo } from "../../../contracts";
+import { useThemeContext } from "../../../theme-context";
 import { ColorPicker } from "../../color-picker/color-picker";
 import styles from "./todos-list-item.module.scss";
 interface TodosListItemProps extends ITodo {
@@ -18,6 +19,9 @@ export function TodosListItem({
   onChange,
   onDelete,
 }: TodosListItemProps) {
+  const { theme } = useThemeContext();
+  const inputRef = useRef<HTMLInputElement>(null);
+
   function handleChange<TProp extends keyof ITodo>(
     todoProp: TProp,
     value: ITodo[TProp]
@@ -26,13 +30,16 @@ export function TodosListItem({
   }
   return (
     <li className={styles.todosListItem}>
+      <button onClick={() => inputRef.current?.focus()}>focus</button>
       <input
         onChange={() => handleChange("done", !done)}
         checked={done}
         type="checkbox"
         disabled={!description}
+        style={{ color: theme.primary }}
       />
       <input
+        ref={inputRef}
         type="text"
         placeholder="Task description..."
         onChange={(e) => handleChange("description", e.target.value)}

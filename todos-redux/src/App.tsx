@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./App.scss";
 import { FiltersList } from "./features/filters-list/filters-list";
-import { TodosList } from "./features/todos-list/todos-list";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import { TodosListContainer } from "./features/todos-list/todos-list-container";
+import { ThemeProvider } from "./theme-context";
 
 // TodosList > TodosListItem {done: boolean, description: string, color: string}
 // Filters: done / not done filter, color filter
@@ -14,10 +15,12 @@ import { store } from "./redux/store";
 function App() {
   return (
     <Provider store={store}>
-      <div className="App">
-        <FiltersList />
-        <TodosList />
-      </div>
+      <ThemeProvider>
+        <div className="App">
+          <FiltersList />
+          <TodosListContainer />
+        </div>
+      </ThemeProvider>
     </Provider>
   );
 }

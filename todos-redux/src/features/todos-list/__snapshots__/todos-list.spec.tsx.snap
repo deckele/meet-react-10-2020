@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`todos-list tests: should render correctly 1`] = `
+<DocumentFragment>
+  <div
+    style="color: black; background-color: white;"
+  >
+    <button>
+      Change Theme
+    </button>
+    <h4>
+      My Todos
+    </h4>
+    <button
+      class="StyledButton"
+    >
+      + New Todo
+    </button>
+    <ul
+      class="todosList"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`todos-list tests: should show todo from todos input 1`] = `
+<DocumentFragment>
+  <div
+    style="color: black; background-color: white;"
+  >
+    <button>
+      Change Theme
+    </button>
+    <h4>
+      My Todos
+    </h4>
+    <button
+      class="StyledButton"
+    >
+      + New Todo
+    </button>
+    <ul
+      class="todosList"
+    >
+      <li
+        class="todosListItem"
+      >
+        <input
+          type="checkbox"
+        />
+        <input
+          class=""
+          placeholder="Task description..."
+          type="text"
+          value="yo my dudes"
+        />
+        <select
+          name="color-picker"
+          style="color: black; font-weight: bolder; text-shadow: black 0px 0px 1px;"
+        >
+          <option
+            value="red"
+          >
+            Red
+          </option>
+          <option
+            value="green"
+          >
+            Green
+          </option>
+          <option
+            value="blue"
+          >
+            Blue
+          </option>
+          <option
+            value="cyan"
+          >
+            Cyan
+          </option>
+          <option
+            value="yellow"
+          >
+            Yellow
+          </option>
+          <option
+            value="purple"
+          >
+            Purple
+          </option>
+          <option
+            value="orange"
+          >
+            Orange
+          </option>
+          <option
+            value="black"
+          >
+            Black
+          </option>
+        </select>
+        <button>
+          X
+        </button>
+      </li>
+    </ul>
+  </div>
+</DocumentFragment>
+`;
